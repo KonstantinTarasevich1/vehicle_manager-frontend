@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { CarFront, Moon, Sun, LogOut } from 'lucide-react';
+import { CarFront, Moon, Sun, LogOut, User, LogIn } from 'lucide-react';
 
 export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   
   const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem('theme') === 'dark');
+
+  const isAuthenticated = !!localStorage.getItem('token');
 
   useEffect(() => {
     if (isDarkMode) {
@@ -35,10 +37,10 @@ export default function Navbar() {
         <div className="flex justify-between h-16">
           
           <div className="flex items-center space-x-8">
-          <Link to="/home" className="flex items-center space-x-2">
-            <CarFront className="text-blue-600 dark:text-blue-400 w-7 h-7" />
-            <span className="text-xl font-bold text-gray-900 dark:text-white">AutoManager</span>
-          </Link>
+            <Link to="/home" className="flex items-center space-x-2">
+              <CarFront className="text-blue-600 dark:text-blue-400 w-7 h-7" />
+              <span className="text-xl font-bold text-gray-900 dark:text-white">AutoManager</span>
+            </Link>
             
             <div className="hidden md:flex space-x-2">
               {navLinks.map((link) => (
@@ -65,13 +67,37 @@ export default function Navbar() {
             >
               {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
-            <button
-              onClick={handleLogout}
-              className="flex items-center space-x-2 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 font-medium px-3 py-2 rounded-lg transition-colors"
-            >
-              <LogOut className="w-5 h-5" />
-              <span className="hidden sm:inline">Logout</span>
-            </button>
+
+            {isAuthenticated ? (
+              <>
+                <Link
+                  to="/profile"
+                  className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium px-3 py-2 rounded-lg transition-colors"
+                  title="My Profile"
+                >
+                  <User className="w-5 h-5" />
+                  <span className="hidden sm:inline">Profile</span>
+                </Link>
+                
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center space-x-2 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 font-medium px-3 py-2 rounded-lg transition-colors"
+                  title="Logout"
+                >
+                  <LogOut className="w-5 h-5" />
+                  <span className="hidden sm:inline">Logout</span>
+                </button>
+              </>
+            ) : (
+              <Link
+                to="/login"
+                className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium px-3 py-2 rounded-lg transition-colors"
+              >
+                <LogIn className="w-5 h-5" />
+                <span className="hidden sm:inline">Login</span>
+              </Link>
+            )}
+            
           </div>
 
         </div>
