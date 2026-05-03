@@ -4,6 +4,10 @@ import Register from './pages/Register';
 import Home from './pages/Home';
 import Garage from './pages/Garage';
 import Navbar from './components/Navbar';
+import CreateAd from './pages/CreateAd';
+import AdDetails from './pages/AdDetails';
+import Marketplace from './pages/Marketplace';
+import UserProfile from './pages/UserProfile';
 
 function App() {
   return (
@@ -18,6 +22,10 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/home" element={<Home />} />
             <Route path="/garage" element={<Garage />} />
+            <Route path="/create-ad" element={<CreateAd />} />
+            <Route path="/marketplace" element={<Marketplace />} />
+            <Route path="/ads/:id" element={<AdDetails />} />
+            <Route path="/profile" element={<UserProfile/>} />
             
             <Route path="/" element={<Navigate to="/home" replace />} />
           </Routes>
