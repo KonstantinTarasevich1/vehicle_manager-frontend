@@ -118,13 +118,20 @@ const UserProfile = () => {
                 <div className="md:col-span-1 space-y-4">
                     <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
                         <h2 className="text-xl font-bold mb-4">Navigation</h2>
+                        
                         <button onClick={() => navigate('/garage')} className="w-full text-left px-4 py-2 hover:bg-gray-50 rounded font-semibold mb-2 border transition">
                             My Garage
                         </button>
+                        
+                        <button onClick={() => navigate('/my-messages')} className="w-full flex justify-between items-center text-left px-4 py-2 hover:bg-blue-50 hover:text-blue-700 rounded font-semibold mb-2 border transition">
+                            <span>My Messages</span>
+                        </button>
+
                         <button onClick={() => navigate('/my-ads')} className="w-full text-left px-4 py-2 hover:bg-gray-50 rounded font-semibold mb-2 border transition">
                             My Ads
                         </button>
-                        <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 rounded font-semibold border border-red-100 transition">
+                        
+                        <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 rounded font-semibold border border-red-100 transition mt-4">
                             Logout
                         </button>
                     </div>

@@ -10,6 +10,7 @@ import AdDetails from './pages/AdDetails';
 import Marketplace from './pages/Marketplace';
 import UserProfile from './pages/UserProfile';
 import MyAds from './pages/MyAds';
+import MyMessages from './pages/MyMessages';
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
             <Route path="/ads/:id" element={<AdDetails />} />
             <Route path="/profile" element={<UserProfile/>} />
             <Route path="/my-ads" element={<MyAds/>} />
+            <Route path="/my-messages" element={<MyMessages/>} />
 
             
             <Route path="/" element={<Navigate to="/home" replace />} />

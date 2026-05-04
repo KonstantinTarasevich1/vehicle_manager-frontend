@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Chat from '../components/Chat'; 
 
 const AdDetails = () => {
     const { id } = useParams();
@@ -130,6 +131,11 @@ const AdDetails = () => {
                     )}
                 </div>
             </div>
+
+            <div className="mt-8 border-t pt-8">
+                <Chat adId={ad.id} partnerUsername={ad.ownerUsername} />
+            </div>
+
         </div>
     );
 };
