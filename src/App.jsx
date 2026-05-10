@@ -11,6 +11,9 @@ import Marketplace from './pages/Marketplace';
 import UserProfile from './pages/UserProfile';
 import MyAds from './pages/MyAds';
 import MyMessages from './pages/MyMessages';
+import Forum from './pages/Forum';
+import TopicDetails from './pages/TopicDetails';
+import MyTopics from './pages/MyTopics';
 
 
 function App() {
@@ -33,6 +36,9 @@ function App() {
             <Route path="/profile" element={<UserProfile/>} />
             <Route path="/my-ads" element={<MyAds/>} />
             <Route path="/my-messages" element={<MyMessages/>} />
+            <Route path="/forum" element={<Forum />} />
+            <Route path="/forum/:id" element={<TopicDetails />} />
+            <Route path="/my-topics" element={<MyTopics />} />
 
             
             <Route path="/" element={<Navigate to="/home" replace />} />

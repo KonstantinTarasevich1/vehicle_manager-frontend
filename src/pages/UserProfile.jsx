@@ -124,7 +124,11 @@ const UserProfile = () => {
                         </button>
                         
                         <button onClick={() => navigate('/my-messages')} className="w-full flex justify-between items-center text-left px-4 py-2 hover:bg-blue-50 hover:text-blue-700 rounded font-semibold mb-2 border transition">
-                            <span>My Messages</span>
+                            My Messages
+                        </button>
+         
+                        <button onClick={() => navigate('/my-topics')} className="w-full text-left px-4 py-2 hover:bg-gray-50 rounded font-semibold mb-2 border transition">
+                              My Forum Topics
                         </button>
 
                         <button onClick={() => navigate('/my-ads')} className="w-full text-left px-4 py-2 hover:bg-gray-50 rounded font-semibold mb-2 border transition">
