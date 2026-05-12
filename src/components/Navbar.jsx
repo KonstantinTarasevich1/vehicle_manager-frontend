@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { CarFront, Moon, Sun, LogOut, User, LogIn } from 'lucide-react';
+import { CarFront, Moon, Sun, LogOut, User, LogIn, Shield } from 'lucide-react';
+import axios from 'axios';
 
 export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   
   const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem('theme') === 'dark');
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const isAuthenticated = !!localStorage.getItem('token');
 
@@ -20,8 +22,29 @@ export default function Navbar() {
     }
   }, [isDarkMode]);
 
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const response = await axios.get('http://localhost:8080/api/users/me', {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          setIsAdmin(response.data.role === 'ADMIN');
+        } catch (error) {
+          setIsAdmin(false);
+        }
+      } else {
+        setIsAdmin(false);
+      }
+    };
+
+    checkAdminStatus();
+  }, [location.pathname]);
+
   const handleLogout = () => {
     localStorage.removeItem('token');
+    setIsAdmin(false);
     navigate('/login');
   };
 
@@ -70,6 +93,17 @@ export default function Navbar() {
 
             {isAuthenticated ? (
               <>
+                {isAdmin && (
+                  <Link
+                    to="/admin"
+                    className="flex items-center space-x-2 text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 font-medium px-3 py-2 rounded-lg transition-colors"
+                    title="Admin Panel"
+                  >
+                    <Shield className="w-5 h-5" />
+                    <span className="hidden sm:inline">Admin</span>
+                  </Link>
+                )}
+
                 <Link
                   to="/profile"
                   className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium px-3 py-2 rounded-lg transition-colors"

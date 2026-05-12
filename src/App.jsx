@@ -14,6 +14,7 @@ import MyMessages from './pages/MyMessages';
 import Forum from './pages/Forum';
 import TopicDetails from './pages/TopicDetails';
 import MyTopics from './pages/MyTopics';
+import AdminPanel from './pages/AdminPanel';
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
             <Route path="/forum" element={<Forum />} />
             <Route path="/forum/:id" element={<TopicDetails />} />
             <Route path="/my-topics" element={<MyTopics />} />
+            <Route path="/admin" element={<AdminPanel />} />
 
             
             <Route path="/" element={<Navigate to="/home" replace />} />
