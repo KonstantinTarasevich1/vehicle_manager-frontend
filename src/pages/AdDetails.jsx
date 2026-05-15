@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { ArrowLeft, MapPin, Phone, User, Calendar, Gauge, Fuel, CheckCircle2, FileText, Settings, ShieldCheck } from 'lucide-react';
 import Chat from '../components/Chat'; 
 
 const AdDetails = () => {
@@ -31,108 +32,127 @@ const AdDetails = () => {
         fetchAd();
     }, [id]);
 
-    if (loading) return <div className="text-center mt-10 text-lg">Loading...</div>;
-    if (error) return <div className="text-center mt-10 text-red-500 text-lg">{error}</div>;
-    if (!ad) return <div className="text-center mt-10 text-lg">Ad not found.</div>;
+    if (loading) return <div className="text-center mt-20 text-lg font-medium text-gray-500">Loading vehicle details...</div>;
+    if (error) return <div className="text-center mt-20 text-red-500 font-bold text-lg">{error}</div>;
+    if (!ad) return <div className="text-center mt-20 text-lg">Ad not found.</div>;
+
+    const formattedPrice = Number(ad.price).toLocaleString('en-US') + ' €';
 
     return (
-        <div className="max-w-6xl mx-auto p-4 mt-6">
-            <button onClick={() => navigate(-1)} className="mb-4 text-blue-600 hover:underline font-semibold">
-                &larr; Back to Marketplace
+        <div className="max-w-6xl mx-auto px-4 py-8">
+            <button onClick={() => navigate(-1)} className="mb-6 flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-bold transition-colors">
+                <ArrowLeft className="w-5 h-5" /> Back to Marketplace
             </button>
             
-            <div className="flex flex-col md:flex-row gap-8">
-                <div className="w-full md:w-2/3">
-                    <div className="bg-white rounded-lg shadow-sm overflow-hidden mb-4 border">
-                        <img src={mainImage || 'https://via.placeholder.com/800x600?text=No+Image'} alt={ad.title} className="w-full h-[500px] object-cover" />
+            <div className="flex flex-col lg:flex-row gap-8">
+                
+                <div className="w-full lg:w-2/3">
+                    
+                    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden mb-4 border border-gray-100 dark:border-gray-700 transition-colors">
+                        <img src={mainImage || 'https://via.placeholder.com/800x600?text=No+Image'} alt={ad.title} className="w-full h-[400px] md:h-[550px] object-cover" />
                     </div>
                     
                     {ad.imageUrls && ad.imageUrls.length > 1 && (
-                        <div className="flex gap-3 overflow-x-auto mb-6 pb-2">
+                        <div className="flex gap-3 overflow-x-auto mb-8 pb-2 custom-scrollbar">
                             {ad.imageUrls.map((url, idx) => (
                                 <img 
                                     key={idx} 
                                     src={`http://localhost:8080${url}`} 
                                     alt={`Thumbnail ${idx}`} 
                                     onClick={() => setMainImage(`http://localhost:8080${url}`)}
-                                    className={`h-24 w-36 object-cover cursor-pointer rounded-md border-2 transition-all ${mainImage === `http://localhost:8080${url}` ? 'border-blue-600 shadow-md scale-105' : 'border-transparent opacity-80 hover:opacity-100'}`}
+                                    className={`h-24 w-36 object-cover cursor-pointer rounded-xl border-2 transition-all ${mainImage === `http://localhost:8080${url}` ? 'border-blue-600 shadow-md scale-105' : 'border-transparent opacity-70 hover:opacity-100'}`}
                                 />
                             ))}
                         </div>
                     )}
 
-                    <div className="bg-white p-6 rounded-lg shadow-sm border mb-6">
-                        <h2 className="text-xl font-bold mb-4">Description</h2>
-                        <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">{ad.description}</p>
+                    <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 transition-colors mb-8">
+                        <h2 className="text-2xl font-bold mb-4 flex items-center gap-2 text-gray-900 dark:text-white">
+                            <FileText className="w-6 h-6 text-blue-600" /> Description
+                        </h2>
+                        <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed text-lg">
+                            {ad.description}
+                        </p>
                     </div>
                 </div>
 
-                <div className="w-full md:w-1/3 space-y-6">
-                    <div className="bg-white p-6 rounded-lg shadow-sm border">
-                        <h1 className="text-2xl font-bold mb-2">{ad.title}</h1>
-                        <div className="text-3xl font-bold text-blue-600 mb-4">{ad.price} €</div>
-                        <div className="text-gray-600 mb-6 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            {ad.city}
+                <div className="w-full lg:w-1/3 space-y-6">
+                    
+                    <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 transition-colors">
+                        <h1 className="text-2xl font-extrabold mb-2 text-gray-900 dark:text-white">{ad.title}</h1>
+                        <div className="text-4xl font-black text-blue-600 dark:text-blue-400 mb-4">{formattedPrice}</div>
+                        <div className="text-gray-600 dark:text-gray-400 mb-6 flex items-center gap-2 font-medium">
+                            <MapPin className="w-5 h-5" /> {ad.city}
                         </div>
                         
-                        <div className="border-t pt-4">
-                            <h3 className="font-bold mb-2 text-gray-800">Seller Contact</h3>
-                            <p className="font-semibold text-lg">{ad.ownerName}</p>
-                            <a href={`tel:${ad.ownerPhone}`} className="text-xl text-blue-600 font-bold hover:underline block mt-1">
-                                {ad.ownerPhone}
+                        <div className="bg-blue-50 dark:bg-blue-900/20 p-5 rounded-xl border border-blue-100 dark:border-blue-800/50 mt-6">
+                            <h3 className="font-bold mb-3 text-gray-800 dark:text-gray-200 text-sm uppercase tracking-wider">Seller Contact</h3>
+                            <div className="flex items-center gap-3 mb-2">
+                                <div className="bg-blue-200 dark:bg-blue-800 p-2 rounded-full">
+                                    <User className="w-5 h-5 text-blue-700 dark:text-blue-300" />
+                                </div>
+                                <span className="font-bold text-lg text-gray-900 dark:text-white">{ad.ownerName}</span>
+                            </div>
+                            <a href={`tel:${ad.ownerPhone}`} className="flex items-center gap-3 mt-4 group">
+                                <div className="bg-green-100 dark:bg-green-900/50 p-2 rounded-full group-hover:bg-green-200 transition-colors">
+                                    <Phone className="w-5 h-5 text-green-700 dark:text-green-400" />
+                                </div>
+                                <span className="text-xl text-green-700 dark:text-green-400 font-bold group-hover:underline">
+                                    {ad.ownerPhone}
+                                </span>
                             </a>
                         </div>
                     </div>
 
-                    <div className="bg-white p-6 rounded-lg shadow-sm border">
-                        <h3 className="font-bold mb-4 text-gray-800">Technical Details</h3>
-                        <ul className="space-y-3 text-sm">
-                            <li className="flex justify-between border-b pb-2"><span className="text-gray-500">Make</span> <span className="font-semibold">{ad.make}</span></li>
-                            <li className="flex justify-between border-b pb-2"><span className="text-gray-500">Model</span> <span className="font-semibold">{ad.model}</span></li>
-                            <li className="flex justify-between border-b pb-2"><span className="text-gray-500">Year</span> <span className="font-semibold">{ad.year}</span></li>
-                            <li className="flex justify-between border-b pb-2"><span className="text-gray-500">Mileage</span> <span className="font-semibold">{ad.mileage} km</span></li>
-                            <li className="flex justify-between border-b pb-2"><span className="text-gray-500">Engine</span> <span className="font-semibold">{ad.engineType}</span></li>
-                            {ad.vinNumber && <li className="flex justify-between border-b pb-2"><span className="text-gray-500">VIN</span> <span className="font-semibold">{ad.vinNumber}</span></li>}
+                    <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 transition-colors">
+                        <h3 className="font-bold mb-5 text-gray-900 dark:text-white text-lg flex items-center gap-2">
+                            <Settings className="w-5 h-5 text-gray-500" /> Technical Details
+                        </h3>
+                        <ul className="space-y-4 text-sm">
+                            <li className="flex justify-between items-center"><span className="text-gray-500 dark:text-gray-400 flex items-center gap-2"><Settings className="w-4 h-4"/> Make</span> <span className="font-bold text-gray-900 dark:text-white">{ad.make}</span></li>
+                            <li className="flex justify-between items-center"><span className="text-gray-500 dark:text-gray-400 flex items-center gap-2"><Settings className="w-4 h-4"/> Model</span> <span className="font-bold text-gray-900 dark:text-white">{ad.model}</span></li>
+                            <li className="flex justify-between items-center"><span className="text-gray-500 dark:text-gray-400 flex items-center gap-2"><Calendar className="w-4 h-4"/> Year</span> <span className="font-bold text-gray-900 dark:text-white">{ad.year}</span></li>
+                            <li className="flex justify-between items-center"><span className="text-gray-500 dark:text-gray-400 flex items-center gap-2"><Gauge className="w-4 h-4"/> Mileage</span> <span className="font-bold text-gray-900 dark:text-white">{ad.mileage} km</span></li>
+                            <li className="flex justify-between items-center"><span className="text-gray-500 dark:text-gray-400 flex items-center gap-2"><Fuel className="w-4 h-4"/> Engine</span> <span className="font-bold text-gray-900 dark:text-white">{ad.engineType}</span></li>
+                            {ad.vinNumber && <li className="flex justify-between items-center pt-2 border-t border-gray-100 dark:border-gray-700"><span className="text-gray-500 dark:text-gray-400 font-bold">VIN</span> <span className="font-mono text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-gray-800 dark:text-gray-200">{ad.vinNumber}</span></li>}
                             
                             {ad.adType === 'CAR' && (
                                 <>
-                                    <li className="flex justify-between border-b pb-2"><span className="text-gray-500">Body Style</span> <span className="font-semibold">{ad.bodyStyle}</span></li>
-                                    <li className="flex justify-between border-b pb-2"><span className="text-gray-500">Doors</span> <span className="font-semibold">{ad.doors}</span></li>
+                                    <li className="flex justify-between items-center"><span className="text-gray-500 dark:text-gray-400">Body Style</span> <span className="font-bold text-gray-900 dark:text-white">{ad.bodyStyle}</span></li>
+                                    <li className="flex justify-between items-center"><span className="text-gray-500 dark:text-gray-400">Doors</span> <span className="font-bold text-gray-900 dark:text-white">{ad.doors}</span></li>
                                 </>
                             )}
                             {ad.adType === 'TRUCK' && (
                                 <>
-                                    <li className="flex justify-between border-b pb-2"><span className="text-gray-500">Load Capacity</span> <span className="font-semibold">{ad.loadCapacityKg} kg</span></li>
-                                    <li className="flex justify-between border-b pb-2"><span className="text-gray-500">Axles</span> <span className="font-semibold">{ad.axles}</span></li>
+                                    <li className="flex justify-between items-center"><span className="text-gray-500 dark:text-gray-400">Load Capacity</span> <span className="font-bold text-gray-900 dark:text-white">{ad.loadCapacityKg} kg</span></li>
+                                    <li className="flex justify-between items-center"><span className="text-gray-500 dark:text-gray-400">Axles</span> <span className="font-bold text-gray-900 dark:text-white">{ad.axles}</span></li>
                                 </>
                             )}
                             {ad.adType === 'MOTORCYCLE' && (
                                 <>
-                                    <li className="flex justify-between border-b pb-2"><span className="text-gray-500">Type</span> <span className="font-semibold">{ad.motorcycleType}</span></li>
-                                    <li className="flex justify-between border-b pb-2"><span className="text-gray-500">Sidecar</span> <span className="font-semibold">{ad.hasSidecar ? 'Yes' : 'No'}</span></li>
+                                    <li className="flex justify-between items-center"><span className="text-gray-500 dark:text-gray-400">Type</span> <span className="font-bold text-gray-900 dark:text-white">{ad.motorcycleType}</span></li>
+                                    <li className="flex justify-between items-center"><span className="text-gray-500 dark:text-gray-400">Sidecar</span> <span className="font-bold text-gray-900 dark:text-white">{ad.hasSidecar ? 'Yes' : 'No'}</span></li>
                                 </>
                             )}
                         </ul>
                     </div>
 
                     {(ad.vignetteValidUntil || ad.insuranceValidUntil || ad.yttValidUntil) && (
-                        <div className="bg-white p-6 rounded-lg shadow-sm border">
-                            <h3 className="font-bold mb-4 text-gray-800">Valid Documents</h3>
+                        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 transition-colors">
+                            <h3 className="font-bold mb-4 text-gray-900 dark:text-white text-lg flex items-center gap-2">
+                                <ShieldCheck className="w-5 h-5 text-green-500" /> Valid Documents
+                            </h3>
                             <ul className="space-y-3 text-sm">
-                                {ad.insuranceValidUntil && <li className="flex justify-between border-b pb-2"><span className="text-gray-500">Insurance</span> <span className="font-semibold text-green-600">{ad.insuranceValidUntil}</span></li>}
-                                {ad.yttValidUntil && <li className="flex justify-between border-b pb-2"><span className="text-gray-500">YTT (Inspection)</span> <span className="font-semibold text-green-600">{ad.yttValidUntil}</span></li>}
-                                {ad.vignetteValidUntil && <li className="flex justify-between border-b pb-2"><span className="text-gray-500">Vignette</span> <span className="font-semibold text-green-600">{ad.vignetteValidUntil}</span></li>}
+                                {ad.insuranceValidUntil && <li className="flex justify-between items-center"><span className="text-gray-500 dark:text-gray-400">Insurance</span> <span className="font-bold text-green-600 flex items-center gap-1"><CheckCircle2 className="w-4 h-4"/> {ad.insuranceValidUntil}</span></li>}
+                                {ad.yttValidUntil && <li className="flex justify-between items-center"><span className="text-gray-500 dark:text-gray-400">YTT (Inspection)</span> <span className="font-bold text-green-600 flex items-center gap-1"><CheckCircle2 className="w-4 h-4"/> {ad.yttValidUntil}</span></li>}
+                                {ad.vignetteValidUntil && <li className="flex justify-between items-center"><span className="text-gray-500 dark:text-gray-400">Vignette</span> <span className="font-bold text-green-600 flex items-center gap-1"><CheckCircle2 className="w-4 h-4"/> {ad.vignetteValidUntil}</span></li>}
                             </ul>
                         </div>
                     )}
                 </div>
             </div>
 
-            <div className="mt-8 border-t pt-8">
+            <div className="mt-12 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden transition-colors">
                 <Chat adId={ad.id} partnerUsername={ad.ownerUsername} />
             </div>
 

@@ -55,48 +55,58 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 transition-colors duration-300 sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="flex justify-between h-16">
+    <nav className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm border-b border-gray-200 dark:border-gray-800 transition-colors duration-300 sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-20">
           
-          <div className="flex items-center space-x-8">
-            <Link to="/home" className="flex items-center space-x-2">
-              <CarFront className="text-blue-600 dark:text-blue-400 w-7 h-7" />
-              <span className="text-xl font-bold text-gray-900 dark:text-white">AutoManager</span>
+          <div className="flex items-center space-x-10">
+            <Link to="/home" className="flex items-center space-x-2.5 group">
+              <div className="bg-blue-600 dark:bg-blue-500 p-2 rounded-xl group-hover:scale-105 transition-transform shadow-md">
+                <CarFront className="text-white w-6 h-6" />
+              </div>
+              <span className="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-blue-500 dark:from-blue-400 dark:to-blue-200 tracking-tight">
+                VehicleManager
+              </span>
             </Link>
             
-            <div className="hidden md:flex space-x-2">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    location.pathname === link.path
-                      ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-gray-700'
-                      : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 hover:bg-gray-50 dark:hover:bg-gray-700'
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              ))}
+            <div className="hidden md:flex items-center space-x-2">
+              {navLinks.map((link) => {
+                const isActive = location.pathname === link.path;
+                return (
+                  <Link
+                    key={link.name}
+                    to={link.path}
+                    className={`px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${
+                      isActive
+                        ? 'text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/30 shadow-sm'
+                        : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800'
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                );
+              })}
             </div>
           </div>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-3">
+            
             <button
               onClick={() => setIsDarkMode(!isDarkMode)}
-              className="p-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white rounded-full transition-colors"
-              title="Toggle Theme"
+              className="p-2.5 text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-300 bg-gray-50 hover:bg-blue-50 dark:bg-gray-800 dark:hover:bg-gray-700 rounded-xl transition-all shadow-sm"
+              title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
             >
               {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
 
+            <div className="h-8 w-px bg-gray-200 dark:bg-gray-700 mx-2 hidden sm:block"></div>
+
             {isAuthenticated ? (
-              <>
+              <div className="flex items-center space-x-2">
                 {isAdmin && (
                   <Link
                     to="/admin"
-                    className="flex items-center space-x-2 text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 font-medium px-3 py-2 rounded-lg transition-colors"
+                    className="flex items-center space-x-2 text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 font-bold px-4 py-2.5 rounded-xl hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-all"
                     title="Admin Panel"
                   >
                     <Shield className="w-5 h-5" />
@@ -106,7 +116,7 @@ export default function Navbar() {
 
                 <Link
                   to="/profile"
-                  className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium px-3 py-2 rounded-lg transition-colors"
+                  className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400 font-bold px-4 py-2.5 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-all"
                   title="My Profile"
                 >
                   <User className="w-5 h-5" />
@@ -115,17 +125,17 @@ export default function Navbar() {
                 
                 <button
                   onClick={handleLogout}
-                  className="flex items-center space-x-2 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 font-medium px-3 py-2 rounded-lg transition-colors"
+                  className="flex items-center space-x-2 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 font-bold px-4 py-2.5 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 transition-all"
                   title="Logout"
                 >
                   <LogOut className="w-5 h-5" />
                   <span className="hidden sm:inline">Logout</span>
                 </button>
-              </>
+              </div>
             ) : (
               <Link
                 to="/login"
-                className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium px-3 py-2 rounded-lg transition-colors"
+                className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white font-bold px-5 py-2.5 rounded-xl transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
               >
                 <LogIn className="w-5 h-5" />
                 <span className="hidden sm:inline">Login</span>
